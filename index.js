@@ -102,6 +102,20 @@ app.post('/admin/refreshToken',  async (req, res) => {
   }
 })
 
+// access token
+app.post('/admin/verify', async (req, res) => {
+   try {
+     const {token} = req.body
+     const usedToken = await tokenService.validateAccess(token)
+     res.status(200).send(usedToken)
+
+   } catch (e) {
+     res.status(500).json({
+       message: "На сервере произошла ошибка, попробуйте позже",
+     });
+   }
+})
+
 
 async function start() {
   try {
@@ -126,3 +140,6 @@ start()
 
 // http://localhost:8888/admin/refreshToken - для обновления токена
 // принимает refresh_token со значение refreshHToken, и возвращает тоже что и для авторизации
+
+// http://localhost:8888/admin/refreshToken/admin/verify - получение accessToken
+// принимает accessToken и если все работает то придет данные если нет то null
