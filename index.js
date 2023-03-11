@@ -6,6 +6,9 @@ import mongoose from "mongoose";
 import {UserModel} from "./models/User.js";
 import {tokenService} from "./service/token.service.js";
 import bcrypt from "bcryptjs";
+import multer from "multer"
+import {auth} from "./middleware/auth.middleware.js";
+import {ProductModel} from "./models/Product.js";
 
 
 const PORT = config.get('port') ?? 8888
@@ -15,7 +18,50 @@ const app = express()
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors())
+// папка со статичными файлами
+app.use("/uploads", express.static("uploads"))
 
+
+// store multer
+const storage = multer.diskStorage({
+  // когда будет загружаться любой файл,   будет работать функция которая вернет путь файла
+  destination: (_, __, cb) => {
+    cb(null, 'uploads')
+  },
+  // перед тем как сохранить функция укажет как называеться файл
+  filename: (_, file, cb) => {
+    cb(null, file.originalname)
+  }
+})
+
+const upload = multer({ storage  })
+// запрос на загрузку
+app.post('/upload', upload.single('image'), (req, res) => {
+  res.json({
+    url: `/uploads/${req.file.originalname}`
+  })
+})
+// создаем пост
+app.post('/admin/createProduct', async (req, res) => {
+  try {
+    const {title, imageUrl} = req.body
+    console.log('title',title)
+    console.log('imageIrl',imageUrl)
+    const doc = new ProductModel({
+      title,
+      imageUrl,
+    })
+    const newProduct = await doc.save()
+
+    res.status(201).json(newProduct)
+
+  } catch (e) {
+    console.log(chalk.red(e.message))
+    res.status(500).json({
+      message: "Не удалось создать пост"
+    })
+  }
+})
 
 // http://localhost:8888
 // app.get('/', (req, res) => {
@@ -46,7 +92,7 @@ app.post('/admin/auth', async (req, res) => {
     const tokens = tokenService.generate({ _id: existingUser._id });
     await tokenService.save(existingUser._id, tokens.refreshToken);
 
-    res.status(201).send({ ...tokens, userId: existingUser._id });
+    res.status(200).send({ ...tokens, userId: existingUser._id });
 
   } catch (e) {
     res.status(500).json({message: "Ошибка на сервере, попробейте позже"})
@@ -94,6 +140,7 @@ app.post('/admin/refreshToken',  async (req, res) => {
     const tokens = await tokenService.generate({ id: data._id });
     await tokenService.save(data._id, tokens.refreshToken);
 
+    console.log('reshreshToken',{ ...tokens, userId: data._id })
     res.status(200).send({ ...tokens, userId: data._id });
   } catch (e) {
     res.status(500).json({
@@ -107,7 +154,9 @@ app.post('/admin/verify', async (req, res) => {
    try {
      const {token} = req.body
      const usedToken = await tokenService.validateAccess(token)
-     res.status(200).send(usedToken)
+     console.log(usedToken)
+
+     res.status(200).json(usedToken)
 
    } catch (e) {
      res.status(500).json({
