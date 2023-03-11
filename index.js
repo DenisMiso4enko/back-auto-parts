@@ -137,7 +137,7 @@ app.post('/admin/refreshToken',  async (req, res) => {
     if (!data || !dbToken || data._id !== dbToken?.user?.toString()) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const tokens = await tokenService.generate({ id: data._id });
+    const tokens = await tokenService.generate({ _id: data._id });
     await tokenService.save(data._id, tokens.refreshToken);
 
     console.log('reshreshToken',{ ...tokens, userId: data._id })
