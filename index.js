@@ -36,11 +36,23 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage  })
 // запрос на загрузку
-app.post('/upload', upload.single('image'), (req, res) => {
-  res.json({
-    url: `/uploads/${req.file.originalname}`
-  })
+// app.post('/upload', upload.single('image'), (req, res) => {
+//   res.json({
+//     url: `/uploads/${req.file.originalname}`
+//   })
+// })
+// загрузка нескольких файлов
+app.post('/upload', upload.array('image'), (req, res) => {
+  const file = req.files
+  const originalNames = file.map(file => `/uploads/${file.originalname}`)
+
+  res.send(originalNames)
+  // res.json({
+  //   url: `/uploads/${req.file.originalname}`
+  // })
 })
+
+
 // создаем пост
 app.post('/admin/createProduct', async (req, res) => {
   try {
