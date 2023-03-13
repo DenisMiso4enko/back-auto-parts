@@ -56,12 +56,8 @@ app.post('/upload', upload.array('image'), (req, res) => {
 // создаем пост
 app.post('/admin/createProduct', async (req, res) => {
   try {
-    const {title, imageUrl} = req.body
-    console.log('title',title)
-    console.log('imageIrl',imageUrl)
     const doc = new ProductModel({
-      title,
-      imageUrl,
+      ...req.body
     })
     const newProduct = await doc.save()
 

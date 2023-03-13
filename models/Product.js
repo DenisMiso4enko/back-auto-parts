@@ -4,15 +4,12 @@ const schema = new Schema(
   {
     mark: {
       type: String,
-      required: true,
     },
     model: {
       type: String,
-      required: true,
     },
     year: {
       type: Number,
-      required: true,
     },
     mode: {
       type: String,
@@ -34,14 +31,13 @@ const schema = new Schema(
     },
     product: {
       type: String,
-      required: true,
     },
     imagesUrl: {
       // images
       type: [String],
     },
     article: {
-      type: Number, // and  string
+      type: String, // and  string
     },
     numberOfProduct: {
       type: Number,
