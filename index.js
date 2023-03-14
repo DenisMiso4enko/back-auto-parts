@@ -8,11 +8,12 @@ import {auth} from "./middleware/auth.middleware.js";
 import {getMe, login, refreshToken, signUp} from "./controllers/UserControlles.js";
 import {
   createProduct,
-  deleteProduct,
+  deleteProduct, findProducts,
   getOneProduct,
   getProducts,
   updateProduct
 } from "./controllers/ProductControllers.js";
+import {ProductModel} from "./models/Product.js";
 
 
 const PORT = config.get('port') ?? 8888
@@ -77,6 +78,9 @@ app.delete('/admin/deleteProduct', deleteProduct)
 app.get('/admin/getOne/:id', getOneProduct)
 app.patch('/admin/updateProduct/:id', updateProduct)
 
+// поиск
+app.get('/admin/search', findProducts)
+
 
 async function start() {
   try {
@@ -120,3 +124,7 @@ start()
 
 // patch http://localhost:8888/admin/updateProduct/:id - обновление продукта
 // id продукта вставить в параметры и так же принимает body данные из формы, если все хорошо success: true, message: 'Продукт обновлен'
+
+
+// patch http://localhost:8888/admin/search?query - поиск по запчасти
+// будет в query вставляеться значение из инпута и в ответ приходит массив запчастей с этим именем

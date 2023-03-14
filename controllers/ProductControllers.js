@@ -84,3 +84,18 @@ export const updateProduct = async (req, res) => {
 		})
 	}
 }
+
+export const findProducts = async (req, res) => {
+	try {
+		const { search, category, model, year } = req.query;
+		const list = await ProductModel.find({product: search})
+		console.log(list)
+		res.status(200).send(list)
+
+
+	} catch (e) {
+		res.status(500).json({
+			message: 'Не найти продукт'
+		})
+	}
+}
