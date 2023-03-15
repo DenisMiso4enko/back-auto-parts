@@ -21,8 +21,35 @@ export const createProduct = async (req, res) => {
 export const getProducts = async (req, res) => {
 	try {
 		const list = await ProductModel.find()
+
+		const page = parseInt(req.query.page)
+		const limit = parseInt(req.query.limit)
+
+		const startIndex = (page - 1) * limit;
+		const endIndex = page * limit;
+		const totalPages = Math.round(list.length / limit)
+
+		const results = {};
+
+		results.totalPages = totalPages
+
+		if (endIndex < list.length) {
+			results.next = {
+				page: page + 1,
+				limit: limit,
+			};
+		}
+
+		if (startIndex > 0) {
+			results.previous = {
+				page: page - 1,
+				limit: limit
+			}
+		}
+		// const list = await ProductModel.find()
+		results.results = list.slice(startIndex, endIndex)
 		if (list) {
-			res.status(200).send(list)
+			res.status(200).json(results)
 		}
 
 	} catch (e) {
@@ -88,7 +115,9 @@ export const updateProduct = async (req, res) => {
 export const findProducts = async (req, res) => {
 	try {
 		const { search, category, model, year } = req.query;
-		const list = await ProductModel.find({product: search})
+		console.log(category, model, year, search)
+		// const list = await ProductModel.find({$or: [{mark: model}, {product: search}]})
+		const list = await ProductModel.find({mark: model, product: search, year: year})
 		console.log(list)
 		res.status(200).send(list)
 
