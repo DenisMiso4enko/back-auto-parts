@@ -87,10 +87,16 @@ export const updateProduct = async (req, res) => {
 
 export const findProducts = async (req, res) => {
 	try {
-		const { search, category, model, year } = req.query;
-		const list = await ProductModel.find({product: search})
-		console.log(list)
-		res.status(200).send(list)
+		const { mark, model, year, product } = req.query;
+		const list = await ProductModel.find({mark: mark, year: year, model: model, product: product})
+		if (list.length === 0) {
+			res.status(400).json({
+				message: 'Нету результата'
+			})
+		} else {
+			res.status(200).send(list)
+		}
+
 
 
 	} catch (e) {
