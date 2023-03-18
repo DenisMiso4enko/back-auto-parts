@@ -14,6 +14,9 @@ import {
   updateProduct
 } from "./controllers/ProductControllers.js";
 import {ProductModel} from "./models/Product.js";
+import {initDatabase} from "./startApp/initDataBase.js";
+import {AutosModel} from "./models/Autos.js";
+import {OptionsModel} from "./models/Options.js";
 
 
 const PORT = config.get('port') ?? 8888
@@ -82,8 +85,41 @@ app.patch('/admin/updateProduct/:id', updateProduct)
 app.get('/admin/search', findProducts)
 
 
+// получить данные о машинах
+app.get('/getAutosInfo', async (req, res) => {
+  try {
+    const list = await AutosModel.find()
+    if (list) {
+      res.status(200).json(list)
+    }
+
+  } catch (e) {
+    res.status(500).json({
+      message: "Не получить данные",
+    });
+  }
+})
+
+app.get('/getOptionsInfo', async (req, res) => {
+  try {
+    const list = await OptionsModel.find()
+    if (list) {
+      res.status(200).json(list)
+    }
+
+  } catch (e) {
+    res.status(500).json({
+      message: "Не получить данные",
+    });
+  }
+})
+
+
 async function start() {
   try {
+    mongoose.connection.once("open", () => {
+      initDatabase()
+    });
     await mongoose.connect(config.get('mongoUrl'))
     console.log(chalk.green('DB connected'))
     app.listen(PORT, () => {
@@ -128,3 +164,8 @@ start()
 
 // patch http://localhost:8888/admin/search?query - поиск по запчасти
 // будет в query вставляеться значение из инпута и в ответ приходит массив запчастей с этим именем
+
+
+// get http://localhost:8888/getAutosInfo - получить списк авто и марок
+
+// get http://localhost:8888/getOptionsInfo - получить списк опций тип двигателя коробка тип кузова года топливо

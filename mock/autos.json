@@ -1,0 +1,96 @@
+[
+  {
+    "mark": "Iveco",
+    "models": ["Daily", "EuroCargo","Turbo Daily"]
+
+  },
+  {
+    "mark": "Peugeot",
+    "models": ["406", "206", "307", "405", "Partner", "Boxer", "Expert", "407", "806"]
+  },
+  {
+    "mark": "Opel",
+    "models": ["Astra", "Senator", "Omega", "Zafira"]
+  },
+  {
+    "mark": "Ford",
+    "models": ["Focus", "Mondeo", "Transit", "C-Max", "Scorpio", "Galaxy", "Escort"]
+  },
+  {
+    "mark": "Audi",
+    "models": ["A6", "A4", "80", "100", "RS2", "A90"]
+  },
+  {
+    "mark": "Volkswagen",
+    "models": ["LT", "Passat", "Sharan", "Transporter", "Golf", "Polo"]
+  },
+  {
+    "mark": "BMW",
+    "models": ["X5 E53", "3 E30", "5 E34", "5 E60/E61", "3 E90/E91/E92/E93", "4 F32/F33/GT F36", "5 E39", "X5 E53", "5 E34"]
+  },
+  {
+    "mark": "Citroen",
+    "models": ["Evasion", "C5", "Xsara", "Xsara Picasso", "Jumper"]
+  },
+  {
+    "mark": "Mitsubishi",
+    "models": ["Space Wagon", "Galant"]
+  },
+  {
+    "mark": "Nissan",
+    "models": ["Almera", "Primera", "Murano", "F115", "RS2", "A90"]
+  },
+  {
+    "mark": "Renault",
+    "models": ["Scenic", "Kangoo", "Laguna", "Espace", "Master", "Safrane", "Megane", "Clio", "Trafic", "Mascott"]
+  },
+  {
+    "mark": "Volvo",
+    "models": ["S40", "S80", "V70", "F115", "RS2", "A90"]
+  },
+  {
+    "mark": "Fiat",
+    "models": ["Punto", "Brava", "Ducato"]
+  },
+  {
+    "mark": "Mazda",
+    "models": ["6", "6", "323", "626"]
+  },
+  {
+    "mark": "Mercedes",
+    "models": ["Sprinter", "E W210", "Vito", "Vito W638", "E W124", "310", "208", "609", "407", "814", "711", "410", "Vario", "C W202", "T1", "814", "190 W201" ]
+  },
+  {
+    "mark": "Seat",
+    "models": ["Toledo", "Alhambra"]
+  },
+  {
+    "mark": "Saab",
+    "models": ["9-5"]
+  },
+  {
+    "mark": "Chevrolet",
+    "models": ["Equinox"]
+  },
+  {
+    "mark": "Jaguar",
+    "models": ["XF"]
+  },
+  {
+    "mark": "Land-Rover",
+    "models": ["Range Rover"]
+  },
+  {
+    "mark": "Skoda",
+    "models": ["Octavia", "Superb"]
+  },
+  {
+    "mark": "SsangYong",
+    "models": ["Musso"]
+  },
+  {
+    "mark": "Chrysler",
+    "models": ["Voyager", "300M"]
+  }
+
+]
