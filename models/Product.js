@@ -54,6 +54,7 @@ const schema = new Schema(
     state: {
       type: String,
     },
+    views: { type: Number, default: 0 },
   },
   {
     timestamps: true,
