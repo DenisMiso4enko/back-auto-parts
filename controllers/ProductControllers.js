@@ -127,6 +127,7 @@ export const updateProduct = async (req, res) => {
 };
 
 export const findProducts = async (req, res) => {
+
   try {
     const { search, category, model, year } = req.query;
     console.log(category, model, year, search);
@@ -144,3 +145,4 @@ export const findProducts = async (req, res) => {
     });
   }
 };
+
