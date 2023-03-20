@@ -1,7 +1,7 @@
 export function paginateResults(page, limit, model) {
 	const startIndex = (page - 1) * limit;
 	const endIndex = page * limit;
-	const totalPages = Math.round(model.length / limit);
+	const totalPages = Math.ceil(model.length / limit);
 
 	const results = {};
 	results.totalProducts = model.length;
