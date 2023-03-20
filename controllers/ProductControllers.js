@@ -107,11 +107,15 @@ export const updateProduct = async (req, res) => {
 export const findProducts = async (req, res) => {
 
   try {
-    const { search, model } = req.query;
-    const list = await ProductModel.find({
-      mark: model,
-      product: search,
-    });
+    const { product, mark } = req.query;
+    const queries = {}
+    if (product) {
+      queries.product = product
+    }
+    if (mark) {
+      queries.mark = mark
+    }
+    const list = await ProductModel.find(queries);
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
 
