@@ -110,7 +110,7 @@ export const findProducts = async (req, res) => {
     const { product, mark } = req.query;
     const queries = {}
     if (product) {
-      queries.product = product
+      queries.product = { $regex: product, $options: 'i' };
     }
     if (mark) {
       queries.mark = mark

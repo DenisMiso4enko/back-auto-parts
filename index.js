@@ -117,9 +117,9 @@ app.get('/getOptionsInfo', async (req, res) => {
 
 async function start() {
   try {
-    mongoose.connection.once("open", () => {
-      initDatabase()
-    });
+    // mongoose.connection.once("open", () => {
+    //   initDatabase()
+    // });
     await mongoose.connect(config.get('mongoUrl'))
     console.log(chalk.green('DB connected'))
     app.listen(PORT, () => {
