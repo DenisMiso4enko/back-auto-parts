@@ -1,0 +1,34 @@
+ запросы
+ post  http:localhost:8888/admin/auth - для авторизации
+ принимает email и password и возвращает accessToken, refreshHToken, userId, expiresIn(срок действия токенв)
+
+ post http:localhost:8888/admin/refreshToken - для обновления токена
+ принимает refresh_token со значение refreshHToken, и возвращает тоже что и для авторизации
+
+ post http:localhost:8888/admin/verify - получение accessToken
+ принимает accessToken и если все работает то придет данные если нет то null
+
+
+ post http:localhost:8888/admin/createProduct - создание товара
+ принимает body с данными из формы,
+
+ get http:localhost:8888/admin/getProducts - получение всех поство
+ ничего не принимает возвращает массив продуктов
+
+ delete http:localhost:8888/admin/deleteProduct - удаление товара
+ принимает в body id поста и если все хорошо придет сообщение success: true, message: 'Продукт удален'
+
+ get http:localhost:8888/admin/getOne/:id - получение одного товара
+ id надо передать в параментры и созвращаеться товар
+
+ patch http:localhost:8888/admin/updateProduct/:id - обновление продукта
+ id продукта вставить в параметры и так же принимает body данные из формы, если все хорошо success: true, message: 'Продукт обновлен'
+
+
+get http:localhost:8888/admin/search?query - поиск по запчасти
+будет в query вставляеться значение из инпута и в ответ приходит массив запчастей с этим именем
+
+
+get http:localhost:8888/getAutosInfo - получить списк авто и марок
+
+get http:localhost:8888/getOptionsInfo - получить списк опций тип двигателя коробка тип кузова года топливо

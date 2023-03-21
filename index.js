@@ -13,10 +13,7 @@ import {
   getProducts,
   updateProduct
 } from "./controllers/ProductControllers.js";
-import {ProductModel} from "./models/Product.js";
-import {initDatabase} from "./startApp/initDataBase.js";
-import {AutosModel} from "./models/Autos.js";
-import {OptionsModel} from "./models/Options.js";
+import {getAutosInfo, getOptionsInfo} from "./controllers/autosInfo.js";
 
 
 const PORT = config.get('port') ?? 8888
@@ -53,13 +50,9 @@ const upload = multer({ storage  })
 
 
 // routes
-// auth login
 app.post('/admin/auth', login);
-// sighUp
 app.post('/admin/signUp', signUp);
-// refresh Token
 app.post('/admin/refreshToken',  refreshToken)
-// access token getMe
 app.post('/admin/verify', getMe)
 
 
@@ -84,35 +77,9 @@ app.patch('/admin/updateProduct/:id', updateProduct)
 // поиск
 app.get('/admin/search', findProducts)
 
-
 // получить данные о машинах
-app.get('/getAutosInfo', async (req, res) => {
-  try {
-    const list = await AutosModel.find()
-    if (list) {
-      res.status(200).json(list)
-    }
-
-  } catch (e) {
-    res.status(500).json({
-      message: "Не получить данные",
-    });
-  }
-})
-
-app.get('/getOptionsInfo', async (req, res) => {
-  try {
-    const list = await OptionsModel.find()
-    if (list) {
-      res.status(200).json(list)
-    }
-
-  } catch (e) {
-    res.status(500).json({
-      message: "Не получить данные",
-    });
-  }
-})
+app.get('/getAutosInfo', getAutosInfo)
+app.get('/getOptionsInfo', getOptionsInfo)
 
 
 async function start() {
@@ -132,40 +99,3 @@ async function start() {
 }
 
 start()
-
-
-
-// запросы
-// post  http://localhost:8888/admin/auth - для авторизации
-// принимает email и password и возвращает accessToken, refreshHToken, userId, expiresIn(срок действия токенв)
-
-// post http://localhost:8888/admin/refreshToken - для обновления токена
-// принимает refresh_token со значение refreshHToken, и возвращает тоже что и для авторизации
-
-// post http://localhost:8888/admin/verify - получение accessToken
-// принимает accessToken и если все работает то придет данные если нет то null
-
-
-// post http://localhost:8888/admin/createProduct - создание товара
-// принимает body с данными из формы,
-
-// get http://localhost:8888/admin/getProducts - получение всех поство
-// ничего не принимает возвращает массив продуктов
-
-// delete http://localhost:8888/admin/deleteProduct - удаление товара
-// принимает в body id поста и если все хорошо придет сообщение success: true, message: 'Продукт удален'
-
-// get http://localhost:8888/admin/getOne/:id - получение одного товара
-// id надо передать в параментры и созвращаеться товар
-
-// patch http://localhost:8888/admin/updateProduct/:id - обновление продукта
-// id продукта вставить в параметры и так же принимает body данные из формы, если все хорошо success: true, message: 'Продукт обновлен'
-
-
-// get http://localhost:8888/admin/search?query - поиск по запчасти
-// будет в query вставляеться значение из инпута и в ответ приходит массив запчастей с этим именем
-
-
-// get http://localhost:8888/getAutosInfo - получить списк авто и марок
-
-// get http://localhost:8888/getOptionsInfo - получить списк опций тип двигателя коробка тип кузова года топливо
