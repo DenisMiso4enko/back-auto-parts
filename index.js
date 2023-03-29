@@ -1,49 +1,57 @@
-import express from "express"
+import express from "express";
 import chalk from "chalk";
-import cors from "cors"
-import config from "config"
+import cors from "cors";
+import config from "config";
 import mongoose from "mongoose";
-import multer from "multer"
-import {auth} from "./middleware/auth.middleware.js";
-import {getMe, login, refreshToken, signUp} from "./controllers/UserControlles.js";
+import multer from "multer";
+import { auth } from "./middleware/auth.middleware.js";
+import {
+  getMe,
+  login,
+  refreshToken,
+  signUp,
+} from "./controllers/UserControlles.js";
 import {
   createProduct,
-  deleteProduct, findProducts,
+  deleteProduct,
+  findProducts,
   getOneProduct,
   getProducts,
-  updateProduct
+  updateProduct,
 } from "./controllers/ProductControllers.js";
-import {getAutosInfo, getOptionsInfo, getPartsList} from "./controllers/autosInfo.js";
-import {ProductModel} from "./models/Product.js";
-import {paginateResults} from "./PaginateResults/PaginateResults.js";
-import {mainRouter} from "./routes/main.js";
+import {
+  getAutosInfo,
+  getOptionsInfo,
+  getPartsList,
+} from "./controllers/autosInfo.js";
+import { ProductModel } from "./models/Product.js";
+import { paginateResults } from "./PaginateResults/PaginateResults.js";
+import { mainRouter } from "./routes/main.js";
 
+const PORT = config.get("port") ?? 8888;
 
-const PORT = config.get('port') ?? 8888
-
-const app = express()
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors())
+app.use(cors());
 
 // папка со статичными файлами
-app.use("/uploads", express.static("uploads"))
-
+app.use("/uploads", express.static("uploads"));
 
 // store multer
 const storage = multer.diskStorage({
   // когда будет загружаться любой файл,   будет работать функция которая вернет путь файла
   destination: (_, __, cb) => {
-    cb(null, 'uploads')
+    cb(null, "uploads");
   },
   // перед тем как сохранить функция укажет как называеться файл
   filename: (_, file, cb) => {
-    cb(null, file.originalname)
-  }
-})
+    cb(null, file.originalname);
+  },
+});
 
-const upload = multer({ storage  })
+const upload = multer({ storage });
 // запрос на загрузку
 // app.post('/upload', upload.single('image'), (req, res) => {
 //   res.json({
@@ -51,60 +59,56 @@ const upload = multer({ storage  })
 //   })
 // })
 
-
 // routes
-app.post('/admin/auth', login);
-app.post('/admin/signUp', signUp);
-app.post('/admin/refreshToken',  refreshToken)
-app.post('/admin/verify', getMe)
-
+app.post("/admin/auth", login);
+app.post("/admin/signUp", signUp);
+app.post("/admin/refreshToken", refreshToken);
+app.post("/admin/verify", getMe);
 
 // загрузка нескольких файлов
-app.post('/upload', upload.array('image'), (req, res) => {
-  const file = req.files
-  const originalNames = file.map(file => `/uploads/${file.originalname}`)
+app.post("/upload", upload.array("image"), (req, res) => {
+  const file = req.files;
+  const originalNames = file.map((file) => `/uploads/${file.originalname}`);
 
-  res.send(originalNames)
+  res.send(originalNames);
   // res.json({
   //   url: `/uploads/${req.file.originalname}`
   // })
-})
+});
 
 // работа с товарами
-app.post('/admin/createProduct', auth, createProduct)
-app.get('/admin/getProducts', getProducts)
-app.delete('/admin/deleteProduct', auth, deleteProduct)
-app.get('/admin/getOne/:id', getOneProduct)
-app.patch('/admin/updateProduct/:id', auth, updateProduct)
+app.post("/admin/createProduct", auth, createProduct);
+app.get("/admin/getProducts", getProducts);
+app.delete("/admin/deleteProduct", auth, deleteProduct);
+app.get("/admin/getOne/:id", getOneProduct);
+app.patch("/admin/updateProduct/:id", auth, updateProduct);
 
 // поиск
-app.get('/admin/search', findProducts)
+app.get("/admin/search", findProducts);
 
 // получить данные о машинах
-app.get('/getAutosInfo', getAutosInfo)
-app.get('/getOptionsInfo', getOptionsInfo)
+app.get("/getAutosInfo", getAutosInfo);
+app.get("/getOptionsInfo", getOptionsInfo);
 
-app.get('/getPartsList',getPartsList)
-
+app.get("/getPartsList", getPartsList);
 
 // client
-app.use('/getAllParts', mainRouter)
-
+app.use("/", mainRouter);
 
 async function start() {
   try {
     // mongoose.connection.once("open", () => {
     //   initDatabase()
     // });
-    await mongoose.connect(config.get('mongoUrl'))
-    console.log(chalk.green('DB connected'))
+    await mongoose.connect(config.get("mongoUrl"));
+    console.log(chalk.green("DB connected"));
     app.listen(PORT, () => {
-      console.log(chalk.green(`Server start om port ${PORT}`))
-    })
+      console.log(chalk.green(`Server start om port ${PORT}`));
+    });
   } catch (e) {
     console.log(chalk.red(e.message));
     process.exit(1);
   }
 }
 
-start()
+start();
