@@ -51,7 +51,6 @@ class TokenService {
       return null;
     }
   }
-
 }
 
 export const tokenService = new TokenService();
