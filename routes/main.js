@@ -6,9 +6,31 @@ export const mainRouter = Router();
 
 mainRouter.get("/getAllParts", async (req, res) => {
   try {
+    const { article, year, mark, model, product, numberOfProduct } = req.query;
+    const queries = {};
+    if (article) {
+      queries.article = article;
+    }
+    if (year) {
+      queries.year = year;
+    }
+    if (mark) {
+      queries.mark = mark;
+    }
+    if (model) {
+      queries.model = model;
+    }
+    if (product) {
+      queries.product = { $regex: product, $options: "i" };
+    }
+    if (numberOfProduct) {
+      queries.numberOfProduct = numberOfProduct;
+    }
+
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
-    const list = await ProductModel.find().sort({ createdAt: -1 });
+    const list = await ProductModel.find(queries).sort({ createdAt: -1 });
+
 
     const results = paginateResults(page, limit, list);
     if (list) {
@@ -39,43 +61,43 @@ mainRouter.get("/getOne/:id", async (req, res) => {
   }
 });
 
-mainRouter.get("/search", async (req, res) => {
-  try {
-    const { article, year, mark, model, product, numberOfProduct } = req.query;
-
-    const queries = {};
-    if (article) {
-      queries.article = article;
-    }
-    if (year) {
-      queries.year = year;
-    }
-    if (mark) {
-      queries.mark = mark;
-    }
-    if (model) {
-      queries.model = model;
-    }
-    if (product) {
-      queries.product = { $regex: product, $options: "i" };
-    }
-    if (numberOfProduct) {
-      queries.numberOfProduct = numberOfProduct;
-    }
-
-    const list = await ProductModel.find(queries).sort({ createdAt: -1 });
-
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-
-    const results = paginateResults(page, limit, list);
-    if (list) {
-      res.status(200).json(results);
-    }
-  } catch (error) {
-    console.log(e.message);
-    res.status(500).json({
-      message: "Не удалось получить товары",
-    });
-  }
-});
+// mainRouter.get("/search", async (req, res) => {
+//   try {
+//     const { article, year, mark, model, product, numberOfProduct } = req.query;
+//
+//     const queries = {};
+//     if (article) {
+//       queries.article = article;
+//     }
+//     if (year) {
+//       queries.year = year;
+//     }
+//     if (mark) {
+//       queries.mark = mark;
+//     }
+//     if (model) {
+//       queries.model = model;
+//     }
+//     if (product) {
+//       queries.product = { $regex: product, $options: "i" };
+//     }
+//     if (numberOfProduct) {
+//       queries.numberOfProduct = numberOfProduct;
+//     }
+//
+//     const list = await ProductModel.find(queries).sort({ createdAt: -1 });
+//
+//     const page = parseInt(req.query.page);
+//     const limit = parseInt(req.query.limit);
+//
+//     const results = paginateResults(page, limit, list);
+//     if (list) {
+//       res.status(200).json(results);
+//     }
+//   } catch (error) {
+//     console.log(e.message);
+//     res.status(500).json({
+//       message: "Не удалось получить товары",
+//     });
+//   }
+// });
