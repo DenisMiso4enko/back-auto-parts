@@ -24,7 +24,7 @@ export const getProducts = async (req, res) => {
 
     const queries = {};
     if (product) {
-      queries.product = product;
+      queries.product = { $regex: product, $options: "i" };
     }
     if (mark) {
       queries.mark = mark;
