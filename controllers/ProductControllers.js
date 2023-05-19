@@ -20,14 +20,11 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { article, year, mark } = req.query;
+    const { product, mark } = req.query;
 
     const queries = {};
-    if (article) {
-      queries.article = article;
-    }
-    if (year) {
-      queries.year = year;
+    if (product) {
+      queries.product = product;
     }
     if (mark) {
       queries.mark = mark;
