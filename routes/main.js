@@ -6,13 +6,10 @@ export const mainRouter = Router();
 
 mainRouter.get("/getAllParts", async (req, res) => {
   try {
-    const { article, year, mark, model, product, numberOfProduct } = req.query;
+    const { product, mark, model, article, year, numberOfProduct } = req.query;
     const queries = {};
-    if (article) {
-      queries.article = article;
-    }
-    if (year) {
-      queries.year = year;
+    if (product) {
+      queries.product = { $regex: product, $options: "i" };
     }
     if (mark) {
       queries.mark = mark;
@@ -20,26 +17,28 @@ mainRouter.get("/getAllParts", async (req, res) => {
     if (model) {
       queries.model = model;
     }
-    if (product) {
-      queries.product = { $regex: product, $options: "i" };
+    if (article) {
+      queries.article = article;
+    }
+    if (year) {
+      queries.year = year;
     }
     if (numberOfProduct) {
       queries.numberOfProduct = numberOfProduct;
     }
 
+    const list = await ProductModel.find(queries).sort({ createdAt: -1 });
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
-    const list = await ProductModel.find(queries).sort({ createdAt: -1 });
-
 
     const results = paginateResults(page, limit, list);
+
     if (list) {
       res.status(200).json(results);
     }
   } catch (e) {
-    console.log(e.message);
     res.status(500).json({
-      message: "Не удалось получить товары",
+      message: "Не удалось найти продукт",
     });
   }
 });

@@ -104,7 +104,7 @@ export const updateProduct = async (req, res) => {
 
 export const findProducts = async (req, res) => {
   try {
-    const { product, mark } = req.query;
+    const { product, mark, model, article, year, numberOfProduct } = req.query;
     const queries = {};
     if (product) {
       queries.product = { $regex: product, $options: "i" };
@@ -112,7 +112,20 @@ export const findProducts = async (req, res) => {
     if (mark) {
       queries.mark = mark;
     }
-    const list = await ProductModel.find(queries);
+    if (model) {
+      queries.model = model;
+    }
+    if (article) {
+      queries.article = article;
+    }
+    if (year) {
+      queries.year = year;
+    }
+    if (numberOfProduct) {
+      queries.numberOfProduct = numberOfProduct;
+    }
+
+    const list = await ProductModel.find(queries).sort({ createdAt: -1 });
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
 
