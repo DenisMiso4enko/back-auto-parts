@@ -14,7 +14,6 @@ import {
 import {
   createProduct,
   deleteProduct,
-  findProducts,
   getOneProduct,
   getProducts,
   updateProduct,
@@ -24,8 +23,6 @@ import {
   getOptionsInfo,
   getPartsList,
 } from "./controllers/autosInfo.js";
-import { ProductModel } from "./models/Product.js";
-import { paginateResults } from "./PaginateResults/PaginateResults.js";
 import { mainRouter } from "./routes/main.js";
 
 const PORT = config.get("port") ?? 8888;
@@ -83,13 +80,9 @@ app.delete("/admin/deleteProduct", auth, deleteProduct);
 app.get("/admin/getOne/:id", getOneProduct);
 app.patch("/admin/updateProduct/:id", auth, updateProduct);
 
-// поиск
-app.get("/admin/search", findProducts);
-
 // получить данные о машинах
 app.get("/getAutosInfo", getAutosInfo);
 app.get("/getOptionsInfo", getOptionsInfo);
-
 app.get("/getPartsList", getPartsList);
 
 // client

@@ -8,5 +8,4 @@ const schema = new Schema({
 	bodyType: [String],
 })
 
-
 export const OptionsModel = model('Options', schema)

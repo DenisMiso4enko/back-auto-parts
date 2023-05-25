@@ -5,5 +5,4 @@ const schema = new Schema({
 	models: [String]
 })
 
-
 export const AutosModel = model('Autos', schema)

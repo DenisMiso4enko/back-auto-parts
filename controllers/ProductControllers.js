@@ -20,14 +20,11 @@ export const createProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { article, year, mark } = req.query;
+    const { product, mark } = req.query;
 
     const queries = {};
-    if (article) {
-      queries.article = article;
-    }
-    if (year) {
-      queries.year = year;
+    if (product) {
+      queries.product = { $regex: product, $options: "i" };
     }
     if (mark) {
       queries.mark = mark;
@@ -101,32 +98,6 @@ export const updateProduct = async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: "Не удалось обновить продукт",
-    });
-  }
-};
-
-export const findProducts = async (req, res) => {
-  try {
-    const { product, mark } = req.query;
-    const queries = {};
-    if (product) {
-      queries.product = { $regex: product, $options: "i" };
-    }
-    if (mark) {
-      queries.mark = mark;
-    }
-    const list = await ProductModel.find(queries);
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-
-    const results = paginateResults(page, limit, list);
-
-    if (list) {
-      res.status(200).json(results);
-    }
-  } catch (e) {
-    res.status(500).json({
-      message: "Не удалось найти продукт",
     });
   }
 };
