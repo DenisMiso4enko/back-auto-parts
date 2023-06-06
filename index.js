@@ -41,7 +41,7 @@ app.use("/uploads", express.static("uploads"));
 const storage = multer.diskStorage({
 	// когда будет загружаться любой файл,   будет работать функция которая вернет путь файла
 	destination: (_, __, cb) => {
-		if (fs.existsSync("uploads")) {
+		if (!fs.existsSync("uploads")) {
 			fs.mkdirSync("uploads")
 		}
 		cb(null, "uploads");
