@@ -4,9 +4,6 @@
   "description": "back end for store auto parts",
   "type": "module",
   "main": "index.js",
-  "engines": {
-    "node": "18"
-  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "serve": "cross-env NODE_ENV=development nodemon index.js"
