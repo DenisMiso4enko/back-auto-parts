@@ -1,8 +1,8 @@
 import express from "express";
 import chalk from "chalk";
 import cors from "cors";
+import 'dotenv/config';
 import fs from "fs";
-import config from "config";
 import mongoose from "mongoose";
 import multer from "multer";
 import {auth} from "./middleware/auth.middleware.js";
@@ -26,7 +26,7 @@ import {
 } from "./controllers/autosInfo.js";
 import {mainRouter} from "./routes/main.js";
 
-const PORT = config.get("port") ?? 8888;
+const PORT = process.env.PORT ?? 9090;
 
 const app = express();
 
@@ -97,7 +97,7 @@ async function start() {
 		// mongoose.connection.once("open", () => {
 		//   initDatabase()
 		// });
-		await mongoose.connect(config.get("mongoUrl"));
+		await mongoose.connect(process.env.MONGO_URL);
 		console.log(chalk.green("DB connected"));
 		app.listen(PORT, () => {
 			console.log(chalk.green(`Server start om port ${PORT}`));

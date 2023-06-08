@@ -1,15 +1,14 @@
 import jwt from "jsonwebtoken";
-import config from "config";
 import { TokenModel } from "../models/Token.js";
+import 'dotenv/config';
 
 class TokenService {
-  // return accessToken, refreshToken, expiresIn
   generate(payload) {
-    const accessToken = jwt.sign(payload, config.get("accessSecret"), {
+    const accessToken = jwt.sign(payload,  process.env.ACCEESS_SECRET, {
       expiresIn: "1h",
     });
 
-    const refreshToken = jwt.sign(payload, config.get("refreshSecret"));
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET);
     return {
       accessToken,
       refreshToken,
@@ -30,7 +29,7 @@ class TokenService {
 
   validateRefresh(refreshToken) {
     try {
-      return jwt.verify(refreshToken, config.get("refreshSecret"));
+      return jwt.verify(refreshToken, process.env.REFRESH_SECRET);
     } catch (e) {
       return null;
     }
@@ -38,7 +37,7 @@ class TokenService {
 
   validateAccess(accessToken) {
     try {
-      return jwt.verify(accessToken, config.get("accessSecret"));
+      return jwt.verify(accessToken,  process.env.ACCEESS_SECRET);
     } catch (e) {
       return null;
     }

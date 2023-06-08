@@ -2,11 +2,12 @@ import { UserModel } from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { tokenService } from "../service/token.service.js";
 import jwt from "jsonwebtoken";
-import config from "config";
+import 'dotenv/config';
 
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password)
 
     const existingUser = await UserModel.findOne({ email });
     if (!existingUser) {
@@ -18,10 +19,10 @@ export const login = async (req, res) => {
     if (!passwordEqual) {
       res.status(400).json({ message: "Пароль не свопадает" });
     } else {
-      const accessToken = jwt.sign({ email: email }, config.get("accessSecret"), {
+      const accessToken = jwt.sign({ email: email }, process.env.ACCEESS_SECRET, {
         expiresIn: "50m",
       });
-      const refreshToken = jwt.sign({ email: email }, config.get("refreshSecret"), {
+      const refreshToken = jwt.sign({ email: email }, process.env.REFRESH_SECRET, {
         expiresIn: "1h",
       });
       res.status(200).send({userId: existingUser._id, email: existingUser.email, accessToken, refreshToken });
@@ -59,14 +60,14 @@ export const signUp = async (req, res) => {
 export const refreshToken = async (req, res) => {
   try {
     const { refresh_token } = req.body;
-    const decoded = jwt.verify(refresh_token, config.get("refreshSecret"));
+    const decoded = jwt.verify(refresh_token, process.env.REFRESH_SECRET);
 
     const user = await UserModel.findOne({email: decoded.email})
 
-    const accessToken = jwt.sign({ email: user.email }, config.get("accessSecret"), {
+    const accessToken = jwt.sign({ email: user.email }, process.env.ACCEESS_SECRET, {
       expiresIn: "50m",
     });
-    const refreshToken = jwt.sign({ email: user.email }, config.get("refreshSecret"), {
+    const refreshToken = jwt.sign({ email: user.email }, process.env.REFRESH_SECRET, {
       expiresIn: "1h",
     });
 
@@ -81,7 +82,7 @@ export const refreshToken = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const { token } = req.body;
-    const decoded = jwt.verify(token, config.get("accessSecret"));
+    const decoded = jwt.verify(token, process.env.ACCEESS_SECRE);
     const user = await UserModel.findOne({email: decoded.email});
     const userInfo = { email: user.email, userId: user._id };
     res.status(200).json(userInfo);
