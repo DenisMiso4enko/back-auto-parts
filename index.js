@@ -26,20 +26,22 @@ import {
 } from "./controllers/autosInfo.js";
 import {mainRouter} from "./routes/main.js";
 
-const PORT = process.env.PORT ?? 9090;
+const PORT = process.env.PORT ?? 8888;
+const url = process.env.IS_PROD === "yes" ? process.env.PROD_URL : process.env.DEV_URL
+const corsOptions = {
+    origin: url,
+    credentials: true,
+}
 
 const app = express();
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-// app.use(cors());
-app.use(cors());
-
 app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Origin', url)
 	next();
 });
-
 
 // папка со статичными файлами
 app.use("/uploads", express.static("uploads"));
@@ -107,7 +109,7 @@ async function start() {
 		await mongoose.connect(process.env.MONGO_URL);
 		console.log(chalk.green("DB connected"));
 		app.listen(PORT, () => {
-			console.log(chalk.green(`Server start om port ${PORT}`));
+			console.log(chalk.green(`Server start on port ${PORT}`));
 		});
 	} catch (e) {
 		console.log(chalk.red(e.message));

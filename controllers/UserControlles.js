@@ -7,7 +7,6 @@ import 'dotenv/config';
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password)
 
     const existingUser = await UserModel.findOne({ email });
     if (!existingUser) {
