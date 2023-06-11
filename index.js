@@ -27,8 +27,7 @@ import {
 import { mainRouter } from './routes/main.js'
 
 const PORT = process.env.PORT ?? 9090
-const url =
-    process.env.IS_PROD === 'yes' ? process.env.PROD_URL : process.env.DEV_URL
+const url = process.env.PROD === "yes" ? process.env.PROD_URL : process.env.DEV_URL
 const corsOptions = {
     origin: url,
     credentials: true,
