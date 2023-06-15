@@ -122,3 +122,6 @@ async function start() {
 }
 
 start()
+
+
+// просто проверка
