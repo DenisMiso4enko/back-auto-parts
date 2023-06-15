@@ -29,7 +29,7 @@ import {mainRouter} from './routes/main.js'
 const PORT = process.env.PORT ?? 9090
 const url = process.env.PROD === "yes" ? process.env.PROD_URL : process.env.DEV_URL
 const corsOptions = {
-	origin: "https://auto-gomel-front-3ffkdhjbf-denismiso4enko.vercel.app",
+	origin: "https://auto-gomel-front.vercel.app",
 	credentials: true,
 }
 
@@ -104,9 +104,6 @@ app.get("/", (req, res, next) => {
 
 // client
 app.use('/', mainRouter)
-// app.get("/", (req, res, next) => {
-// 	res.send('Hello World!')
-// })
 
 async function start() {
 	try {
