@@ -98,6 +98,10 @@ app.get('/getAutosInfo', getAutosInfo)
 app.get('/getOptionsInfo', getOptionsInfo)
 app.get('/getPartsList', getPartsList)
 
+app.get("/", (req, res, next) => {
+    res.send('Hello from express app autoparts!')
+})
+
 // client
 app.use('/', mainRouter)
 
@@ -108,7 +112,7 @@ async function start() {
         // });
         await mongoose.connect(process.env.MONGO_URL)
         console.log(chalk.green('DB connected'))
-        app.listen(PORT, () => {
+        app.listen(PORT || 3333, () => {
             console.log(chalk.green(`Server start on port ${PORT}`))
         })
     } catch (e) {
