@@ -27,13 +27,13 @@ import {
 import { mainRouter } from "./routes/main.js";
 
 const PORT = process.env.PORT ?? 9090;
-const url =
-  process.env.PROD === "yes" ? process.env.PROD_URL : process.env.DEV_URL;
 const corsOptions = {
   origin: [
-    "https://auto-gomel-front.vercel.app",
-    "http://localhost:5174",
-    "http://localhost:5173",
+    process.env.DEVC_URL,
+    process.env.DEVA_URL,
+    process.env.PROD_URL,
+    // "http://localhost:5174",
+    // "http://localhost:5173",
   ],
   credentials: true,
 };
@@ -45,10 +45,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.header(
-    "Access-Control-Allow-Origin",
-    "http://localhost:5174",
-    "http://localhost:5173"
-  );
+      'Access-Control-Allow-Origin',
+      process.env.DEVA_URL,
+      process.env.PROD_URL,
+      // "http://localhost:5174",
+      // "http://localhost:5173",
+  )
   next();
 });
 
