@@ -32,8 +32,8 @@ const corsOptions = {
     process.env.DEVC_URL,
     process.env.DEVA_URL,
     process.env.PROD_URL,
-    // "http://localhost:5174",
-    // "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5173",
   ],
   credentials: true,
 };
@@ -48,8 +48,8 @@ app.use((req, res, next) => {
       'Access-Control-Allow-Origin',
       process.env.DEVA_URL,
       process.env.PROD_URL,
-      // "http://localhost:5174",
-      // "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5173",
   )
   next();
 });
