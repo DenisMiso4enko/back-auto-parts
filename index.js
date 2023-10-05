@@ -37,6 +37,7 @@ const corsOptions = {
     "http://xn80aedi.vh121.hosterby.com",
     "http://xn--80aedi4aemb7a3h.xn--90ais",
     "https://back-autoparts.onrender.com",
+    "https://back-autoparts.onrender.com",
   ],
   credentials: true,
 };
@@ -55,6 +56,7 @@ app.use((req, res, next) => {
     "http://localhost:5173",
     "http://xn80aedi.vh121.hosterby.com",
     "http://xn--80aedi4aemb7a3h.xn--90ais/",
+    "https://back-autoparts.onrender.com",
     "https://back-autoparts.onrender.com"
   );
   next();
