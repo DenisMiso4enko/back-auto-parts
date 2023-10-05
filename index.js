@@ -34,9 +34,9 @@ const corsOptions = {
     process.env.PROD_URL,
     "http://localhost:5174",
     "http://localhost:5173",
-    "http://xn80aedi.vh121.hosterby.com",
-    "http://xn--80aedi4aemb7a3h.xn--90ais",
-    "https://admin-panel-nu-five.vercel.app/",
+    "https://xn80aedi.vh121.hosterby.com",
+    "https://xn--80aedi4aemb7a3h.xn--90ais",
+    "https://admin-panel-nu-five.vercel.app",
   ],
   credentials: true,
 };
@@ -53,8 +53,8 @@ app.use((req, res, next) => {
     process.env.PROD_URL,
     "http://localhost:5174",
     "http://localhost:5173",
-    "http://xn80aedi.vh121.hosterby.com",
-    "http://xn--80aedi4aemb7a3h.xn--90ais/",
+    "https://xn80aedi.vh121.hosterby.com",
+    "https://xn--80aedi4aemb7a3h.xn--90ais",
     "https://admin-panel-nu-five.vercel.app"
   );
   next();
