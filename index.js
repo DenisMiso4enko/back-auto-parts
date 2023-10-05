@@ -34,6 +34,8 @@ const corsOptions = {
     process.env.PROD_URL,
     "http://localhost:5174",
     "http://localhost:5173",
+    "http://xn80aedi.vh121.hosterby.com",
+    "http://xn--80aedi4aemb7a3h.xn--90ais",
   ],
   credentials: true,
 };
@@ -45,12 +47,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.header(
-      'Access-Control-Allow-Origin',
-      process.env.DEVA_URL,
-      process.env.PROD_URL,
-      "http://localhost:5174",
-      "http://localhost:5173",
-  )
+    "Access-Control-Allow-Origin",
+    process.env.DEVA_URL,
+    process.env.PROD_URL,
+    "http://localhost:5174",
+    "http://localhost:5173",
+    "http://xn80aedi.vh121.hosterby.com",
+    "http://xn--80aedi4aemb7a3h.xn--90ais/"
+  );
   next();
 });
 
