@@ -1,0 +1,5 @@
+deployment:
+  tasks:
+    - export REPOPATH=/home/xn80aedi/repositories/back-auto-parts/*
+    - export SITEPATH=/home/xn80aedi/public_html/
+    - /bin/rsync -rav --exclude '.git' --exclude '.cpanel.yml' --del $REPOPATH $SITEPATH
