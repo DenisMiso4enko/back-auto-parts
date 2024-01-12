@@ -28,19 +28,19 @@ import { mainRouter } from "./routes/main.js";
 
 const PORT = process.env.PORT ?? 9090;
 const corsOptions = {
-  origin: [
-    process.env.DEVC_URL,
-    process.env.DEVA_URL,
-    process.env.PROD_URL,
-    "http://localhost:5174",
-    "http://localhost:5173",
-    "https://xn80aedi.vh121.hosterby.com",
-    "https://xn--80aedi4aemb7a3h.xn--90ais",
-    "https://admin-panel-nu-five.vercel.app",
-    "https://back-auto-parts.vercel.app/upload",
-  ],
-  credentials: true,
-};
+    origin: [
+        process.env.DEVC_URL,
+        process.env.PROD_URL,
+        'http://127.0.0.1:5173',
+        'http://localhost:5174',
+        'http://localhost:5173',
+        'https://xn80aedi.vh121.hosterby.com',
+        'https://xn--80aedi4aemb7a3h.xn--90ais',
+        'https://admin-panel-nu-five.vercel.app',
+        'https://back-auto-parts.vercel.app/upload',
+    ],
+    credentials: true,
+}
 
 const app = express();
 
@@ -49,16 +49,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.header(
-    "Access-Control-Allow-Origin",
-    process.env.DEVA_URL,
-    process.env.PROD_URL,
-    "http://localhost:5174",
-    "http://localhost:5173",
-    "https://xn80aedi.vh121.hosterby.com",
-    "https://xn--80aedi4aemb7a3h.xn--90ais",
-    "https://admin-panel-nu-five.vercel.app",
-    "https://back-auto-parts.vercel.app/upload"
-  );
+      'Access-Control-Allow-Origin',
+      process.env.DEVC_URL,
+      process.env.PROD_URL,
+      'http://127.0.0.1:5173',
+      'http://localhost:5174',
+      'http://localhost:5173',
+      'https://xn80aedi.vh121.hosterby.com',
+      'https://xn--80aedi4aemb7a3h.xn--90ais',
+      'https://admin-panel-nu-five.vercel.app',
+      'https://back-auto-parts.vercel.app/upload'
+  )
   next();
 });
 
